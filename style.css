@@ -1,0 +1,215 @@
+/* CoffeeOrder Website Styles */
+
+:root {
+  --bg: #f8f6f4;
+  --card: #fff;
+  --accent: #6b4f3f;
+  --muted: #666;
+  --shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: #222;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #fefefe, #f7f2ef);
+  box-shadow: var(--shadow);
+}
+
+header .logo {
+  font-size: 1.8rem;
+  background: var(--accent);
+  color: white;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+header h1 {
+  flex: 1;
+  text-align: center;
+  color: var(--accent);
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn, .ghost {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+}
+
+.btn:hover {
+  background: #523c2f;
+}
+
+.ghost {
+  background: transparent;
+  border: 1px solid #ccc;
+  color: var(--accent);
+}
+
+.ghost:hover {
+  background: #f0ebe7;
+}
+
+main {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.gallery-section h2 {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.card h4 {
+  margin: 0.5rem 1rem 0 1rem;
+  color: var(--accent);
+}
+
+.card p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.3rem 1rem 0.5rem 1rem;
+}
+
+.price {
+  display: block;
+  font-weight: bold;
+  color: var(--accent);
+  margin: 0 1rem 1rem 1rem;
+}
+
+/* Modal */
+.modal-back {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.modal .close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.modal-img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+form label {
+  display: block;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+form input, form select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.form-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.orders-section {
+  margin-top: 2rem;
+}
+
+.order-item {
+  background: #fff;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 0.6rem;
+  box-shadow: var(--shadow);
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 2rem;
+  background: #f1eeeb;
+}

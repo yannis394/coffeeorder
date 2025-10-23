@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CoffeeOrder — Visual + Audio Prototype</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">☕</div>
+    <h1>CoffeeOrder</h1>
+    <nav class="auth-buttons">
+      <button class="ghost" id="loginBtn">Login</button>
+      <button class="ghost" id="githubBtn">GitHub</button>
+      <button class="ghost" id="googleBtn">Google</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="gallery-section">
+      <h2>Choose your coffee</h2>
+      <p>Click a coffee image to order.</p>
+      <div class="grid" id="gallery"></div>
+    </section>
+
+    <section class="orders-section">
+      <h3>Recent Orders</h3>
+      <div id="ordersList">No orders yet.</div>
+    </section>
+  </main>
+
+  <div class="modal-back" id="modalBack">
+    <div class="modal">
+      <button class="close" id="closeModal">✕</button>
+      <h3 id="modalTitle"></h3>
+      <div id="modalContent"></div>
+      <form id="orderForm">
+        <label for="address">Delivery Address</label>
+        <input id="address" name="address" required placeholder="Street, City, ZIP" />
+
+        <label for="date">Delivery Date</label>
+        <input id="date" type="date" name="date" required />
+
+        <label for="payment">Payment Method</label>
+        <select id="payment" name="payment">
+          <option>Credit Card</option>
+          <option>PayPal</option>
+          <option>Mobile Pay</option>
+        </select>
+
+        <div class="form-buttons">
+          <button class="btn" type="submit">Place Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>Prototype created for assignment. Choose MIT or Apache license.</p>
+  </footer>
+
+  <script>
+    const coffees = [
+      {id:1,name:'Espresso',desc:'Strong and aromatic single-shot espresso.',price:2.50,img:'https://images.unsplash.com/photo-1574169208507-84376144848b'},
+      {id:2,name:'Americano',desc:'Espresso with hot water for a balanced flavor.',price:3.00,img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93'},
+      {id:3,name:'Cappuccino',desc:'Espresso with steamed milk and foam.',price:3.75,img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=60'},
+      {id:4,name:'Latte',desc:'Smooth milk-forward espresso beverage.',price:4.00,img:'https://images.unsplash.com/photo-1529070538774-1843cb3265df'},
+      {id:5,name:'Flat White',desc:'Velvety texture with rich espresso taste.',price:3.90,img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085'}
+    ];
+
+    const gallery = document.getElementById('gallery');
+    const modalBack = document.getElementById('modalBack');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalContent = document.getElementById('modalContent');
+    const orderForm = document.getElementById('orderForm');
+    const ordersList = document.getElementById('ordersList');
+
+    function renderGallery() {
+      gallery.innerHTML = '';
+      coffees.forEach(c => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <img src="${c.img}" alt="${c.name}" />
+          <h4>${c.name}</h4>
+          <p>${c.desc}</p>
+          <span class="price">$${c.price.toFixed(2)}</span>
+        `;
+        card.addEventListener('click', () => openOrder(c));
+        gallery.appendChild(card);
+      });
+    }
+
+    function openOrder(coffee) {
+      modalBack.style.display = 'flex';
+      modalTitle.textContent = `Order ${coffee.name}`;
+      modalContent.innerHTML = `<img src="${coffee.img}" alt="${coffee.name}" class="modal-img"/><p>${coffee.desc}</p><p><strong>Price:</strong> $${coffee.price.toFixed(2)}</p>`;
+      modalBack.dataset.selected = coffee.id;
+    }
+
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    modalBack.addEventListener('click', e => { if (e.target === modalBack) closeModal(); });
+
+    function closeModal() { modalBack.style.display = 'none'; }
+
+    orderForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const coffee = coffees.find(c => c.id == modalBack.dataset.selected);
+      const address = document.getElementById('address').value;
+      const date = document.getElementById('date').value;
+      const payment = document.getElementById('payment').value;
+
+      const order = { coffee: coffee.name, price: coffee.price, address, date, payment };
+      appendOrder(order);
+      alert(`Order complete: ${coffee.name} for $${coffee.price}. Delivery on ${date}.`);
+      closeModal();
+    });
+
+    function appendOrder(order) {
+      const prev = JSON.parse(localStorage.getItem('orders') || '[]');
+      prev.unshift(order);
+      localStorage.setItem('orders', JSON.stringify(prev));
+      renderOrders();
+    }
+
+    function renderOrders() {
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      if (!orders.length) { ordersList.textContent = 'No orders yet.'; return; }
+      ordersList.innerHTML = orders.map(o => `
+        <div class="order-item">
+          <strong>${o.coffee}</strong> - $${o.price.toFixed(2)}<br>
+          <small>${o.date} | ${o.payment}</small>
+        </div>
+      `).join('');
+    }
+
+    renderGallery();
+    renderOrders();
+  </script>
+</body>
+</html>
